@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Tiro+Tamil&display=swap');
+
+$primary: #6C5A49;
+$secondary: #271F30;
+$accent: #7b9e7d;
+
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Tiro Tamil', serif;
+    font-weight: bold !important;
+}
+
+// Then add additional custom code here
+.bg-primary-custom{
+   background-color: $primary; 
+   color: white;
+}
+
+.bg-secondary-custom{
+    background-color: $secondary;
+}
+
+.btn-primary-custom{
+    background-color: $primary !important;
+    border-color: $primary !important;
+    font-weight: bold !important;
+}
+
+.btn-secondary-custom{
+    background-color: $accent !important;
+    border-color: $accent !important;
+    font-weight: bold !important;
+}

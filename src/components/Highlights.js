@@ -8,7 +8,7 @@ export default function Highlights(){
                 <Card className="card-highlight">
                     <Card.Body>
                         <Card.Title>
-                            <h2>Learn From Home</h2>
+                            <h2>Built Bikes</h2>
                         </Card.Title>
 
                         <Card.Text>
@@ -21,7 +21,7 @@ export default function Highlights(){
                 <Card className="card-highlight">
                     <Card.Body>
                         <Card.Title>
-                            <h2>Study Now, Pay Later</h2>
+                            <h2>Bike Parts</h2>
                         </Card.Title>
 
                         <Card.Text>
@@ -34,7 +34,7 @@ export default function Highlights(){
                 <Card className="card-highlight">
                     <Card.Body>
                         <Card.Title>
-                            <h2>Be part of the Community</h2>
+                            <h2>Bike Accessories</h2>
                         </Card.Title>
 
                         <Card.Text>

@@ -116,9 +116,9 @@ export default function Login() {
             </Form.Group>
             <div></div>
             {isActive ? 
-                <Button variant="primary" type="submit" className="mt-2">Login</Button>
+                <Button variant="dark" type="submit" className="mt-2 btn-secondary-custom">Login</Button>
                 :
-                <Button variant="primary" type="submit" className="mt-2" disabled>Login</Button>
+                <Button variant="dark" type="submit" className="mt-2 btn-secondary-custom" disabled>Login</Button>
             }   
         </Form>
     )

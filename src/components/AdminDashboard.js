@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import {Table, Button} from "react-bootstrap"
 import AddCourse from "./AddCourse";
-import ArchiveCourse from "./ArchiveCourseButton";
+import ArchiveCourseButton from "./ArchiveCourseButton";
+import EditCourseButton from "./EditCourseButton";
 
 export default function AdminDashboard(props){
     const [courses, setCourses] = useState([])
@@ -30,8 +31,8 @@ export default function AdminDashboard(props){
                     <td>{course.price}</td>
                     <td className={course.is_active ? 'text-success': 'text-danger'}>{course.is_active ? 'In Stock': 'Out of Stock'}</td>
                     <td className="d-flex justify-content-evenly">
-                        <Button variant='secondary' onClick={updateCourse(course._id)}>Edit</Button>
-                        <ArchiveCourse courseId={course._id} isActive={course.is_active} refreshData={props.refreshData}/>
+                        <EditCourseButton course={course} refreshData={props.refreshData}/>
+                        <ArchiveCourseButton courseId={course._id} isActive={course.is_active} refreshData={props.refreshData}/>
                     </td>
                 </tr>
             )
