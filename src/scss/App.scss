@@ -1,15 +1,18 @@
+// Google Fonts
 @import url('https://fonts.googleapis.com/css2?family=Tiro+Tamil&display=swap');
 
 $primary: #6C5A49;
 $secondary: #271F30;
 $accent: #7b9e7d;
 
-h1, h2, h3, h4, h5, h6{
+// HEADING STYLES
+h1, h2, h3, h4, h5, h6, label{
     font-family: 'Tiro Tamil', serif;
     font-weight: bold !important;
 }
+// HEADING STYLES
 
-// Then add additional custom code here
+// BACKGROUND COLOR
 .bg-primary-custom{
    background-color: $primary; 
    color: white;
@@ -17,8 +20,12 @@ h1, h2, h3, h4, h5, h6{
 
 .bg-secondary-custom{
     background-color: $secondary;
-}
+    color: white;
 
+}
+// BACKGROUND COLOR
+
+// BUTTON COLOR
 .btn-primary-custom{
     background-color: $primary !important;
     border-color: $primary !important;
@@ -30,3 +37,19 @@ h1, h2, h3, h4, h5, h6{
     border-color: $accent !important;
     font-weight: bold !important;
 }
+
+// BUTTON COLOR
+
+// NAVBAR
+.navbar-logo{
+    font-family: 'Tiro Tamil', serif;
+    font-weight: bold;
+}
+// NAVBAR
+
+// CARDS
+.overlay-image{
+    background-color: #333;
+    opacity: 10%;
+}
+// CARDS
