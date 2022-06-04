@@ -20,23 +20,18 @@ function App() {
   const [user, setUser] = useState({
     firstName: localStorage.getItem('firstName'),
     accessToken: localStorage.getItem('accessToken'),
-    isAdmin: localStorage.getItem('isAdmin') === 'true'
+    isAdmin: localStorage.getItem('isAdmin') === 'true',
+    regularUser: localStorage.getItem('regularUser')
   })
 
-  let cart_items = []
-
-  localStorage.setItem('cart_products', JSON.stringify(cart_items))
-
-  const [cart, setCart] = useState({
-    products: localStorage.getItem('cart_products')
-  })
+  const [cart, setCart] = useState([])
 
   const unsetUser = () => {
     localStorage.clear()
   }
 
   const unsetCart = () => {
-    localStorage.clear()
+    setCart([])
   }
 
   return (

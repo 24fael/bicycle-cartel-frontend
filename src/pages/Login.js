@@ -65,10 +65,11 @@ export default function Login() {
                 .then(result => {
                     if(result.is_admin === true){
                         localStorage.setItem('isAdmin', result.is_admin)
-                        localStorage.setItem('firstName', result.first_name)
 
                         setUser({
-                            isAdmin: result.is_admin
+                            firstName: result.first_name,
+                            isAdmin: result.is_admin,
+                            regularUser: false
                         })
 
                         setIsLoading(false)
@@ -76,6 +77,16 @@ export default function Login() {
                         navigate('/products')
                     }
                     else{
+                        // set first name even if not admin
+                        localStorage.setItem('regularUser', true)
+
+                        setUser({
+                            accessToken: null,
+                            firstName: result.first_name,
+                            isAdmin: false,
+                            regularUser: true
+                        })
+
                         setIsLoading(false)
                         navigate('/')
                     }

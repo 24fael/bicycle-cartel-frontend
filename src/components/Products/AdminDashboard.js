@@ -30,8 +30,9 @@ export default function AdminDashboard(props){
                     <td>{product.description}</td>
                     <td>{product.price}</td>
                     <td className={product.is_active ? 'text-success': 'text-danger'}>{product.is_active ? 'In Stock': 'Out of Stock'}</td>
-                    <td className="d-flex justify-content-evenly">
+                    <td className="d-flex">
                         <EditProductButton product={product} refreshData={props.refreshData}/>
+                        <span className="p-1"></span>
                         <ArchiveProductButton productId={product._id} isActive={product.is_active} refreshData={props.refreshData}/>
                     </td>
                 </tr>
@@ -49,7 +50,7 @@ export default function AdminDashboard(props){
             </div>
 
             <Table striped bordered hover responsive>
-                <thead className="bg-primary-custom text-white">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>

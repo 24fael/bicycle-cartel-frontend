@@ -11,7 +11,7 @@ export default function Highlights(){
                     </Tooltip>
                 }>
                     <Card className="card-highlight">
-                        <Card.Img src={require('../images/built bike.jpg')} alt="Built Bikes" />
+                        <Card.Img src={require('../assets/images/built bike.jpg')} alt="Built Bikes" />
                         <Card.ImgOverlay>
                             <Card.Title className="text-white">
                                 <h2>Built Bikes</h2>
@@ -27,7 +27,7 @@ export default function Highlights(){
                     </Tooltip>
                 }>
                     <Card className="card-highlight">
-                        <Card.Img src={require('../images/bike_parts.jpg')} alt="Bike Parts" />
+                        <Card.Img src={require('../assets/images/bike_parts.jpg')} alt="Bike Parts" />
                         <Card.ImgOverlay>
                             <Card.Title className="text-white">
                                 <h2>Bike Parts</h2>
@@ -43,7 +43,7 @@ export default function Highlights(){
                     </Tooltip>
                 }>
                 <Card className="card-highlight">
-                    <Card.Img src={require('../images/bike accessories.jpg')} alt="Bike Accessories" />
+                    <Card.Img src={require('../assets/images/bike accessories.jpg')} alt="Bike Accessories" />
                     <Card.ImgOverlay>
                         <Card.Title className="text-white">
                             <h2>Bike Accessories</h2>

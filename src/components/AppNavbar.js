@@ -8,6 +8,7 @@ import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import
 
 export default function AppNavbar() {
     const {user} = useContext(UserContext)
+    const {cart} = useContext(CartContext)
 
     return(
         <div>
@@ -27,24 +28,17 @@ export default function AppNavbar() {
                                 user.isAdmin ? 'Dashboard' : 'Catalog'
                             }
                         </NavLink>
-                        <NavLink to="/orders" className={(user.accessToken && !user.isAdmin) ? 'nav-link' : 'd-none'}>
+                        <NavLink to="/orders" className={(user.isAdmin === true || !user.regularUser) ? 'd-none' : 'nav-link'}>
                             Orders
                         </NavLink>
-                        <NavLink to="/cart" className={(user.accessToken && !user.isAdmin) ? 'nav-link ' : 'd-none'}>
-                            <Badge bg="light" text="dark">0</Badge> Cart
+                        <NavLink to="/cart" className={(user.isAdmin === true || !user.regularUser) ? 'd-none ' : 'nav-link'}>
+                            <Badge bg="light" text="dark">{cart.length}</Badge> Cart
                         </NavLink>
                         <NavDropdown
-                        title={
-                            (user.accessToken ? (user.firstName ? 
-                                `${user.firstName}`
-                                :
-                                'User')
-                            :
-                            'Get Started') 
-                        }
+                        title={(user.regularUser === true || user.isAdmin === true) ? user.firstName : 'Get Started'}
                         menuVariant="dark"
                         >
-                            {user.accessToken !== null ?
+                            {(user.regularUser === true || user.isAdmin === true) ?
                                 <NavDropdown.Item as={Link} to="logout" className="nav-link">Logout</NavDropdown.Item>
                             :
                                 <>

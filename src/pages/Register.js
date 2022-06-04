@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import UserContext from '../contexts/UserContext'
 
 export default function Register(){
-    const { user } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
     let navigate = useNavigate()
 
     let [firstName, setFirstName] = useState('')
@@ -74,7 +74,7 @@ export default function Register(){
         <React.Fragment>
             <Row className='mt-5'>  
                 <Col md={6}>
-                    <img src={require('../images/vintage bicycle.png')} className='img-fluid' alt="a vintage bicycle"/>
+                    <img src={require('../assets/images/vintage bicycle.png')} className='img-fluid' alt="a vintage bicycle"/>
                 </Col>
                 <Col md={6} className="d-flex justify-content-center">
                     <Card className="mt-5 w-75">

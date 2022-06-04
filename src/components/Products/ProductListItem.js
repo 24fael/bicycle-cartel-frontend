@@ -19,7 +19,7 @@ export default function ProductListItem({product}){
 
     return(
         <Card className="my-3">
-            <Card.Img variant="top" src="https://picsum.photos/120/80" />
+            <Card.Img variant="top" src={product.image} />
             <Card.Body>
                 <Card.Title><h5>{product.name}</h5></Card.Title>
                 <ReadMoreReact
