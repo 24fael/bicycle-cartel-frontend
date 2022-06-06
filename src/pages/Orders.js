@@ -3,14 +3,16 @@ import UserContext  from "../contexts/UserContext";
 import {Navigate} from 'react-router-dom'
 import {Row, Col, Table} from 'react-bootstrap'
 import moment from 'moment';
+import Loading from '../components/Loading';
 
 export default function Orders(){
     const {user, setUser} = useContext(UserContext)
     const [orders, setOrders] = useState([])
-    // const [orderProducts, setOrderProducts] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if(user.isAdmin){
+            setIsLoading(true)
             fetch(`${process.env.REACT_APP_API_BASE_URL}/orders`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -20,10 +22,12 @@ export default function Orders(){
             .then(result => {
                 if(result){
                     setOrders(result)
+                    setIsLoading(false)
                 }
             })
         }
         else{
+            setIsLoading(true)
             fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/auth`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -33,6 +37,7 @@ export default function Orders(){
             .then(result => {
                 if(result){
                     setOrders(result)
+                    setIsLoading(false)
                 }
             })
         }
@@ -63,6 +68,9 @@ export default function Orders(){
     })
 
     return(
+        isLoading ? 
+            <Loading/>
+        :
         (user.regularUser || user.isAdmin) ?   
             <Row className="mt-5">
                 <Col>
