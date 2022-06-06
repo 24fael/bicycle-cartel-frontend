@@ -117,7 +117,7 @@ export default function Login() {
                         <Form onSubmit={authenticate}>
                         <Card.Header><h1>Login</h1></Card.Header>
                         <Card.Body>
-                                <Form.Group>
+                                <Form.Group className="mb-3">
                                     <Form.Label>Email:</Form.Label>
                                     <Form.Control
                                         type="email"

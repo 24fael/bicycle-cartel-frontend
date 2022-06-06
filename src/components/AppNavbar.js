@@ -12,7 +12,7 @@ export default function AppNavbar() {
 
     return(
         <div>
-            <Navbar className="bg-primary-custom" variant="dark">
+            <Navbar className="bg-primary-custom fixed-top" variant="dark">
                 <Container>
                 <Navbar.Brand as={Link} to={'/'} className="navbar-logo">
                     <FontAwesomeIcon icon={solid('bicycle')} /> Bicycle Cartel
@@ -28,14 +28,14 @@ export default function AppNavbar() {
                                 user.isAdmin ? 'Dashboard' : 'Catalog'
                             }
                         </NavLink>
-                        <NavLink to="/orders" className={(user.isAdmin === true || !user.regularUser) ? 'd-none' : 'nav-link'}>
+                        <NavLink to="/orders" className={(user.regularUser || user.isAdmin) ? 'nav-link' : 'd-none'}>
                             Orders
                         </NavLink>
                         <NavLink to="/cart" className={(user.isAdmin === true || !user.regularUser) ? 'd-none ' : 'nav-link'}>
                             <Badge bg="light" text="dark">{cart.length}</Badge> Cart
                         </NavLink>
                         <NavDropdown
-                        title={(user.regularUser === true || user.isAdmin === true) ? user.firstName : 'Get Started'}
+                        title={(user.regularUser === true || user.isAdmin === true) ? <FontAwesomeIcon icon={solid('user')} /> : 'Get Started'}
                         menuVariant="dark"
                         >
                             {(user.regularUser === true || user.isAdmin === true) ?

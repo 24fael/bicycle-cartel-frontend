@@ -72,13 +72,13 @@ export default function ArchiveCourse({ productId, isActive, refreshData}) {
 		<>
 
 			{ isActive  ?
-				<Button variant="danger" size="sm" disabled={isLoading} onClick={() => archiveToggle(productId)}>
+				<Button variant="danger" disabled={isLoading} onClick={() => archiveToggle(productId)}>
 					{isLoading ? 'Loading' : 'Disable'}
 				</Button>
 
 				:
 
-				<Button className="btn-secondary-custom" variant="dark" size="sm" disabled={isLoading} onClick={() => activateToggle(productId)}>
+				<Button className="btn-secondary-custom" variant="dark" disabled={isLoading} onClick={() => activateToggle(productId)}>
 					{isLoading ? 'Loading' : 'Enable'}
 				</Button>
 

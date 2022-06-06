@@ -40,15 +40,35 @@ export default function Product(){
     }, [])
 
     const addToCart = () => {
+        function checkIfExists(){
+            if(cart.some(item => item.product_id === id)){
+                // get index of matching products
+                const index = cart.findIndex(item => item.product_id === id)
+                
+                // get previous quantity
+                const previousQuantity = cart[index].quantity
+
+                // remove object with that index
+                const pseudo_cart = cart.splice(index, 1)
+                setCart(pseudo_cart)
+
+                // add current qty to previous qty
+                return previousQuantity + quantity
+            }
+            else{
+                return quantity
+            }
+        }
+
         let product = {
             id: Math.floor(100000 + Math.random() * 900000),
-            productId: id,
+            product_id: id,
             name: name,
             description: description,
             price: price,
-            quantity: quantity
+            quantity: checkIfExists()
         }
-        
+       
         setCart([...cart, product])
 
         Swal.fire({
@@ -115,7 +135,7 @@ export default function Product(){
                         </InputGroup>
                         <span className="p-1"></span>
                         {
-                            user.accessToken !== null ?
+                            user.regularUser === true ?
                                 <Button className="btn-secondary-custom" variant='dark' onClick={() => addToCart()}>
                                     <FontAwesomeIcon icon={solid('cart-plus')} /> Add to Cart
                                 </Button>

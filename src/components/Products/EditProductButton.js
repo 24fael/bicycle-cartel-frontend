@@ -4,9 +4,14 @@ import Swal from 'sweetalert2'
 
 export default function EditProductButton(props){
     const [isLoading, setIsLoading] = useState(false)
+
+    const [productImage, setProductImage] = useState(props.product.image)
     const [name,setName] = useState(props.product.name)
     const [description,setDescription] = useState(props.product.description)
     const [price,setPrice] = useState(props.product.price)
+    const [defaultCategory, setDefaultCategory] = useState('')
+    const [categoryId, setCategoryId] = useState(props.product.category_id)
+    const [categories, setCategories] = useState([])
 
     // States for showing modal
     const [showModal, setShowModal] = useState(false)
@@ -20,17 +25,20 @@ export default function EditProductButton(props){
 
         setIsLoading(true)
 
+        const formData = new FormData()
+
+        formData.append('image', productImage)
+        formData.append('name', name)
+        formData.append('description', description)
+        formData.append('price', price)
+        formData.append('category_id', categoryId)
+
         fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${props.product._id}/update`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
             },
-            body: JSON.stringify({
-                name: name,
-                description: description,
-                price: price
-            })
+            body: formData
         })
         .then(response => response.json())
         .then(result => {
@@ -56,10 +64,29 @@ export default function EditProductButton(props){
         })
     }
 
+    useEffect(() => {
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/categories`)
+        .then(response => response.json())
+        .then(result => {
+            setCategories(result)
+        })
+
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/categories/${props.product.category_id}`)
+        .then(response => response.json())
+        .then(result => {
+            setDefaultCategory(result.name)
+        })
+    }, [])
+
+    let category_list = categories.map(category => {
+        return(
+            <option value={category._id}>{category.name}</option>
+        )
+    })
+
     return(
         <div>
             <Button className="btn-secondary-custom" variant="dark" onClick={openAddModal}>Edit</Button>
-            
             {/* edit modal */}
             <Modal show={showModal} onHide={closeAddModal}>
                 <Form onSubmit={ event => editProduct(event) }>
@@ -67,6 +94,14 @@ export default function EditProductButton(props){
                         <Modal.Title><h4>Edit Product</h4></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Product Images</Form.Label>
+                            <Form.Control
+                                type="file"
+                                accept=".jpg,.png,.jpeg"
+                                onChange={e => setProductImage(e.target.files[0])}
+                            />
+                    </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Name</Form.Label>
                             <Form.Control
@@ -85,7 +120,7 @@ export default function EditProductButton(props){
                                 onChange={event => setDescription(event.target.value)}
                             />
                         </Form.Group>
-                        <Form.Group>
+                        <Form.Group className='mb-3'>
                             <Form.Label>Price</Form.Label>
                             <Form.Control
                                 type="text"
@@ -93,6 +128,13 @@ export default function EditProductButton(props){
                                 value={price}
                                 onChange={event => setPrice(event.target.value)}
                             />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Category</Form.Label>
+                            <Form.Select aria-label="Default select example" onChange={event => setCategoryId(event.target.value)}>
+                                <option value={categoryId}>{defaultCategory}</option>
+                                {category_list}
+                            </Form.Select>
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>

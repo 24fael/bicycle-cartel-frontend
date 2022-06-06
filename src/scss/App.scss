@@ -5,6 +5,16 @@ $primary: #6C5A49;
 $secondary: #271F30;
 $accent: #7b9e7d;
 
+// PRODUCT LINKS
+.product-link{
+    text-decoration: none !important;
+    color: #333 !important;
+
+    :hover{
+        text-decoration: underline;
+    }
+}
+
 // HEADING STYLES
 h1, h2, h3, h4, h5, h6, label, th{
     font-family: 'Tiro Tamil', serif;

@@ -40,7 +40,7 @@ function App() {
         <CartProvider value={{cart, setCart, unsetCart}}>
           <Router>
             <AppNavbar/>
-            <Container>
+            <Container className="pt-5">
             <Routes>
                 <Route path='/' element={<Home/>}></Route>
                 <Route path='/products' element={<Products/>}></Route>

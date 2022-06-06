@@ -18,10 +18,10 @@ export default function ProductListItem({product}){
     }, [])
 
     return(
-        <Card className="my-3">
-            <Card.Img variant="top" src={product.image} />
+        <Card className="my-3 shadow-sm">
+            <Card.Img variant="top" src={product.image}/>
             <Card.Body>
-                <Card.Title><h5>{product.name}</h5></Card.Title>
+                <Card.Title className="product-link" as={Link} to={`/products/${product._id}`}><h5>{product.name}</h5></Card.Title>
                 <ReadMoreReact
                     text={product.description}
                     min={80}
@@ -30,7 +30,7 @@ export default function ProductListItem({product}){
                     readMoreText={<strong>Read more</strong>}
                 />
                 <Card.Subtitle className="mt-3">Price:</Card.Subtitle>
-                <Card.Text>Php {product.price}</Card.Text>
+                <Card.Text>₱<strong>{product.price}</strong></Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush">
                 <ListGroupItem>
@@ -45,9 +45,6 @@ export default function ProductListItem({product}){
                     </Badge>
                 </ListGroupItem>
             </ListGroup>
-            <Card.Body>
-                <Button className="btn-secondary-custom" variant="dark" as={Link} to={`/products/${product._id}`}>Details</Button>
-            </Card.Body>
         </Card>
     )
 }
