@@ -69,7 +69,9 @@ export default function Orders(){
 
     return(
         isLoading ? 
-            <Loading/>
+            <div className="d-flex justify-content-center mt-5">
+                <Loading/>
+            </div>
         :
         (user.regularUser || user.isAdmin) ?   
             <Row className="mt-5">
