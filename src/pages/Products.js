@@ -104,7 +104,7 @@ export default function Products() {
                                     value={searchCriteria}
                                     onChange={event => setSearchCriteria(event.target.value)}
                                     />
-                                    <InputGroup.Text as={Button} onClick={() => handleProductSearch()} className="btn-secondary-custom" variant="dark" id="inputGroup-sizing-default">
+                                    <InputGroup.Text disabled={searchCriteria === ''} as={Button} onClick={() => handleProductSearch()} className="btn-secondary-custom" variant="dark" id="inputGroup-sizing-default">
                                         <FontAwesomeIcon icon={solid('magnifying-glass')} /> Search
                                     </InputGroup.Text>
                                 </InputGroup>
