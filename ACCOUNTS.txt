@@ -1,0 +1,7 @@
+Regular User:
+Email - jd@email.com 
+Password - user123
+
+Admin User: 
+Email - diazearlrafael@gmail.com 
+Password - user123
