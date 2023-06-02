@@ -9,7 +9,7 @@ export default function ProductList(props){
         const products_arr = props.products.map(product => {
             if(product.is_active === true){
                 return(
-                    <Col md={3}>
+                    <Col md={3} className="d-flex align-items-stretch">
                         <ProductListItem key={product._id} product={product}/>
                     </Col>
                 )

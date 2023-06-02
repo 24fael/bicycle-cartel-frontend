@@ -18,8 +18,8 @@ export default function ProductListItem({product}){
     }, [])
 
     return(
-        <Card className="my-3 shadow-sm">
-            <Card.Img variant="top" src={product.image}/>
+        <Card className="my-3 shadow-sm w-100">
+            <Card.Img variant="top" src={product.image} alt={`Picture of ${product.name}`}/>
             <Card.Body>
                 <Card.Title className="product-link" as={Link} to={`/products/${product._id}`}><h5>{product.name}</h5></Card.Title>
                 <ReadMoreReact

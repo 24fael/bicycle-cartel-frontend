@@ -1,22 +1,25 @@
 import './scss/App.scss'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React, {useState} from 'react'
+import React, {useState, lazy, Suspense} from 'react'
 import AppNavbar from './components/AppNavbar'
 import Home from './pages/Home';
-import Products from './pages/Products';
 import { Container } from 'react-bootstrap';
-import Register from './pages/Register';
-import Login from './pages/Login';
-import Logout from './pages/Logout';
 import NotFound from './pages/NotFound';
 import {UserProvider} from './contexts/UserContext'
 import { CartProvider } from './contexts/CartContext';
-import Product from './pages/Product';
-import Orders from './pages/Orders';
-import Cart from './pages/Cart';
+
+// Lazy-loaded components
+const Products = lazy(() => import('./pages/Products.js'))
+const Product = lazy(() => import('./pages/Product.js'))
+const Orders = lazy(() => import('./pages/Orders.js'))
+const Cart = lazy(() => import('./pages/Cart.js'))
+const Register = lazy(() => import('./pages/Register.js'))
+const Login = lazy(() => import('./pages/Login.js'))
+const Logout = lazy(() => import('./pages/Logout.js'))
 
 function App() {
 
+  // Global states
   const [user, setUser] = useState({
     firstName: localStorage.getItem('firstName'),
     accessToken: localStorage.getItem('accessToken'),
@@ -26,6 +29,7 @@ function App() {
 
   const [cart, setCart] = useState([])
 
+  // Global functions
   const unsetUser = () => {
     localStorage.clear()
   }
@@ -37,7 +41,8 @@ function App() {
   return (
     <React.Fragment>
       <UserProvider value={{user, setUser, unsetUser}}>
-        <CartProvider value={{cart, setCart, unsetCart}}>
+      <CartProvider value={{cart, setCart, unsetCart}}>
+        <Suspense fallback={"Loading the page..."}>
           <Router>
             <AppNavbar/>
             <Container className="pt-5">
@@ -54,7 +59,8 @@ function App() {
             </Routes>
             </Container>
           </Router>
-        </CartProvider>
+        </Suspense>
+      </CartProvider>
       </UserProvider>
     </React.Fragment>
   )

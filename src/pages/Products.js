@@ -17,6 +17,9 @@ export default function Products() {
     const {user} = useContext(UserContext)
 
     const getAllProducts = () => {
+        // Clears search box
+        setSearchCriteria('')
+
         setIsLoading(true)
         fetch(`${process.env.REACT_APP_API_BASE_URL}/products/`)
         .then(response => response.json())
@@ -70,13 +73,6 @@ export default function Products() {
     return(
         <div>
             { 
-                isLoading ?
-                    <Row>
-                        <Col className="d-flex justify-content-center mt-5">
-                            <Loading/>
-                        </Col>
-                    </Row> 
-                :
                 (user.isAdmin === true) ?
                     <AdminDashboard products={allProducts} refreshData={getAllProducts}/>
                 :
@@ -104,14 +100,30 @@ export default function Products() {
                                     value={searchCriteria}
                                     onChange={event => setSearchCriteria(event.target.value)}
                                     />
-                                    <InputGroup.Text disabled={searchCriteria === ''} as={Button} onClick={() => handleProductSearch()} className="btn-secondary-custom" variant="dark" id="inputGroup-sizing-default">
+                                    <InputGroup.Text 
+                                        disabled={searchCriteria === ''} 
+                                        as={Button} 
+                                        onClick={() => handleProductSearch()} 
+                                        className="btn-secondary-custom" 
+                                        variant="dark" 
+                                        id="inputGroup-sizing-default"
+                                        >
                                         <FontAwesomeIcon icon={solid('magnifying-glass')} /> Search
                                     </InputGroup.Text>
                                 </InputGroup>
                                 </span>
                             </Col>
                         </Row>
-                        <ProductList products={allProducts}/>
+
+                        {
+                            isLoading ?
+                                <>
+                                    <Loading/>
+                                    <p>Loading our products, please wait.</p>
+                                </>
+                            :
+                                <ProductList products={allProducts}/>
+                        }
                     </>
             }
         </div>

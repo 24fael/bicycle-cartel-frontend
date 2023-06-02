@@ -7,20 +7,6 @@ import EditProductButton from "./EditProductButton";
 export default function AdminDashboard(props){
     const [products, setProducts] = useState([])
 
-
-    const updateProduct = (product_id) => {
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${product_id}/update`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify({
-               
-            })
-        })
-    }
-
     useEffect(() => {
         const product_array = props.products.map(product => {
             return(

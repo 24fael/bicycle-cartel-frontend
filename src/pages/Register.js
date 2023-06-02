@@ -3,6 +3,8 @@ import {Row, Col, Form, Button, Card, Image} from 'react-bootstrap'
 import { Navigate, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import UserContext from '../contexts/UserContext'
+import Lottie from "lottie-react";
+import RoadCyclistAnimation from "../assets/animations/roadCyclist.json";
 
 export default function Register(){
     const { user, setUser } = useContext(UserContext)
@@ -67,6 +69,10 @@ export default function Register(){
         })
     }
 
+    const animation_style = {
+        height: 468,
+    };
+
     return(
         (user.accessToken !== null) ?
             <Navigate to='/products'/>
@@ -74,7 +80,7 @@ export default function Register(){
         <React.Fragment>
             <Row className='mt-5'>  
                 <Col md={6}>
-                    <img src={require('../assets/images/vintage bicycle.png')} className='img-fluid' alt="a vintage bicycle"/>
+                    <Lottie animationData={RoadCyclistAnimation} style={animation_style} />
                 </Col>
                 <Col md={6} className="d-flex justify-content-center">
                     <Card className="mt-5 w-75">
