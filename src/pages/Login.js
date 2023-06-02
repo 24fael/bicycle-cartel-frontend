@@ -113,44 +113,43 @@ export default function Login() {
         <>
             <Row>
                 <Col className="d-flex justify-content-center mt-5">
-                    <Card className="w-50">
-                        <Form onSubmit={authenticate}>
-                        <Card.Header><h1>Login</h1></Card.Header>
-                        <Card.Body>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Email:</Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="Enter your Email"
-                                        required
-                                        value={email}
-                                        onChange={(event) => setEmail(event.target.value)}
-                                    />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Password:</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        placeholder="Enter your Password"
-                                        required
-                                        value={password}
-                                        onChange={(event) => setPassword(event.target.value)}
-                                    />
-                                </Form.Group>
-                        </Card.Body>
-                        <Card.Footer>
+                    <div className="w-25">
+                        <h1 className="text-center">Log in</h1>
+                        <Form onSubmit={authenticate} className="my-2">
+                            <Form.Group className="mb-3">
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Enter your Email"
+                                    required
+                                    value={email}
+                                    onChange={(event) => setEmail(event.target.value)}
+                                />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Password:</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Enter your Password"
+                                    required
+                                    value={password}
+                                    onChange={(event) => setPassword(event.target.value)}
+                                />
+                            </Form.Group>
+                            
+                            <hr/>
+
                             {isActive ? 
-                                <Button variant="dark" type="submit" className="mt-2 btn-secondary-custom" disabled={isLoading}>
+                                <Button variant="dark" type="submit" className="w-100 btn-secondary-custom" disabled={isLoading}>
                                     {
-                                        isLoading ? 'Loading..' : 'Login'
+                                        isLoading ? 'Loading..' : 'Log in'
                                     }
                                 </Button>
                                 :
-                                <Button variant="dark" type="submit" className="mt-2 btn-secondary-custom" disabled>Login</Button>
+                                <Button variant="dark" type="submit" className="w-100 btn-secondary-custom" disabled>Log in</Button>
                             }  
-                        </Card.Footer>
                         </Form>
-                    </Card>
+                    </div>
                 </Col>
             </Row>
         </>
