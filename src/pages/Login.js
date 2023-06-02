@@ -114,7 +114,7 @@ export default function Login() {
             <Row>
                 <Col className="d-flex justify-content-center mt-5">
                     <div className="w-25">
-                        <h1 className="text-center">Log in</h1>
+                        <h1 className="text-center">Log In</h1>
                         <Form onSubmit={authenticate} className="my-2">
                             <Form.Group className="mb-3">
                                 <Form.Label>Email:</Form.Label>
@@ -142,11 +142,11 @@ export default function Login() {
                             {isActive ? 
                                 <Button variant="dark" type="submit" className="w-100 btn-secondary-custom" disabled={isLoading}>
                                     {
-                                        isLoading ? 'Loading..' : 'Log in'
+                                        isLoading ? 'Loading..' : 'Log In'
                                     }
                                 </Button>
                                 :
-                                <Button variant="dark" type="submit" className="w-100 btn-secondary-custom" disabled>Log in</Button>
+                                <Button variant="dark" type="submit" className="w-100 btn-secondary-custom" disabled>Log In</Button>
                             }  
                         </Form>
                     </div>
