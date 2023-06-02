@@ -1,5 +1,5 @@
 //ArchiveCourse.js
-import React, {useState, useEffect} from 'react';
+import {useState} from 'react';
 import { Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
@@ -20,9 +20,9 @@ export default function ArchiveCourse({ productId, isActive, refreshData}) {
 			if(data) {
 				setIsLoading(false)
 				Swal.fire({
-					title: 'success',
+					title: 'Success',
 					icon: 'success',
-					text: 'Product successfully disabled'
+					text: 'Product successfully disabled!'
 				})
 				refreshData()
 			}else {
@@ -52,7 +52,7 @@ export default function ArchiveCourse({ productId, isActive, refreshData}) {
 				Swal.fire({
 					title: 'Success',
 					icon: 'success',
-					text: 'Product successfully activated'
+					text: 'Product successfully activated!'
 				})
 				refreshData()
 			}else {

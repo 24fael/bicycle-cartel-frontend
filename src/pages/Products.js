@@ -1,11 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react'
+import {useContext, useEffect, useState, lazy, Suspense} from 'react'
 import UserContext from '../contexts/UserContext'
-import AdminDashboard from '../components/Products/AdminDashboard'
 import ProductList from '../components/Products/ProductList'
 import Loading from '../components/Loading'
 import {Row, Col, Button, InputGroup, FormControl, Form} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro'
+
+const AdminDashboard = lazy(() => import('../components/Products/AdminDashboard'))
 
 export default function Products() {
     const [allProducts, setAllProducts] = useState([])
@@ -74,7 +75,9 @@ export default function Products() {
         <div>
             { 
                 (user.isAdmin === true) ?
-                    <AdminDashboard products={allProducts} refreshData={getAllProducts}/>
+                    <Suspense fallback={'Loading Admin Dashboard..'}>
+                        <AdminDashboard products={allProducts} refreshData={getAllProducts}/>
+                    </Suspense>
                 :
                     <>
                         <Row>

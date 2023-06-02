@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import {Table, Button} from "react-bootstrap"
+import {useState, useEffect} from "react";
+import {Table} from "react-bootstrap"
 import AddProduct from "./AddProduct";
 import ArchiveProductButton from "./ArchiveProductButton";
 import EditProductButton from "./EditProductButton";
@@ -27,10 +27,10 @@ export default function AdminDashboard(props){
         })
 
         setProducts(product_array)
-    }, [props.products])
+    }, [props.products, props.refreshData])
 
     return(
-        <div>
+        <div className="mt-5">
             <div className="text-center my-4">
                 <h1>Admin Dashboard</h1>
                 <AddProduct refreshData={props.refreshData}/>
