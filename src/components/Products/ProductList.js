@@ -6,6 +6,14 @@ import {useQuery} from 'react-query';
 export default function ProductList(props){
     const [products, setProducts] = useState([])
 
+    const filterByCategoryQuery = useQuery(["filterByCategory", props.categoryId], () =>
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${props.categoryId}/filter`).then((res) => res.json()),
+        {
+            enabled: false,
+            fetchOnMount: false
+        }
+    );
+
     const searchProductsQuery = useQuery(
         ['searchProducts', props.searchCriteria],
         () => fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${props.searchCriteria}/search-active`).then((res) => res.json()),
@@ -16,10 +24,16 @@ export default function ProductList(props){
     );
 
     useEffect(() => {
-    if (props.searchCriteria) {
-        searchProductsQuery.refetch();
-    }
+        if (props.searchCriteria) {
+            searchProductsQuery.refetch();
+        }
     }, [props.searchCriteria]);
+
+    useEffect(() => {
+        if (props.categoryId) {
+            filterByCategoryQuery.refetch();
+        }
+    }, [props.categoryId]);
 
     // track changes
     useEffect(() => {

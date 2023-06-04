@@ -14,6 +14,7 @@ export default function Products() {
     // For handling the data from the search input field
     const [searchCriteria, setSearchCriteria] = useState("");
     const [categoryId, setCategoryId] = useState("");
+    const [isDisabled, setIsDisabled] = useState(false);
 
     // Initializes the UserContext to be able to use the global 'user' state
     const { user } = useContext(UserContext);
@@ -34,7 +35,6 @@ export default function Products() {
     const filterByCategoryQuery = useQuery(["filterByCategory", categoryId], () =>
         fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${categoryId}/filter`).then((res) => res.json()),
         {
-            keepPreviousData: true,
             enabled: false
         }
     );
@@ -69,12 +69,11 @@ export default function Products() {
                 <Col className="d-flex justify-content-between align-items-center mt-5">
                 <h1>Product Catalog</h1>
                 <span className="d-flex align-items-center">
-                    <Form.Select className="w-75" onChange={(event) => {
+                    <Form.Select className="w-75" onClick={() => setIsDisabled(prev => !prev)} onChange={(event) => {
                             setCategoryId(event.target.value)
-                            filterByCategoryQuery.refetch()
                         }
                     }>
-                        <option>Filter by Category</option>
+                        <option disabled={isDisabled}>Filter by Category</option>
                         {category_list}
                     </Form.Select>
                     <span className="p-1"></span>
@@ -113,7 +112,7 @@ export default function Products() {
                     <p>Loading our products, please wait.</p>
                 </>
             ) : (
-                <ProductList searchCriteria={searchCriteria} products={filterByCategoryQuery.data || searchProductsQuery.data || getAllProductsQuery.data} />
+                <ProductList searchCriteria={searchCriteria} categoryId={categoryId} products={filterByCategoryQuery.data || searchProductsQuery.data || getAllProductsQuery.data} />
             )}
             </>
         )}
