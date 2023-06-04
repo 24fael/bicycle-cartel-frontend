@@ -1,12 +1,9 @@
-import {useContext, useEffect, useState, lazy, Suspense} from 'react'
+import {useContext, useState, lazy, Suspense} from 'react'
 import UserContext from '../contexts/UserContext'
 import ProductList from '../components/Products/ProductList'
 import Loading from '../components/Loading'
 import {Row, Col, Button, InputGroup, FormControl, Form} from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro'
-import { useQuery, useQueryClient } from "react-query";
-import Swal from 'sweetalert2'
+import { useProductQueries } from '../hooks/Products/useProductQueries'
 
 const AdminDashboard = lazy(() => import('../components/Products/AdminDashboard'))
 
@@ -19,34 +16,9 @@ export default function Products() {
     // Initializes the UserContext to be able to use the global 'user' state
     const { user } = useContext(UserContext);
 
-    // QUERIES
-    const getAllProductsQuery = useQuery("getAllProducts", () => 
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/`).then((res) => res.json()),
-        {
-            keepPreviousData: true,
-            enabled: true
-        }
-    );
+    // Initializes the Queries to be used on the file for fetching data
+    const { getAllProductsQuery, getAllCategoriesQuery, filterByCategoryQuery, searchProductsQuery } = useProductQueries(categoryId, searchCriteria);
 
-    const getAllCategoriesQuery = useQuery("getAllCategories", () =>
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/categories/`).then((res) => res.json())
-    );
-
-    const filterByCategoryQuery = useQuery(["filterByCategory", categoryId], () =>
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${categoryId}/filter`).then((res) => res.json()),
-        {
-            enabled: false
-        }
-    );
-    
-    // By putting the 'searchCriteria' state inside an array along with the queryKey 'searchProducts', we are observing the changes is that state and for every change, it will fetch data depending on the value of that state. (This allows search results to automatically reflect on the UI)
-    const searchProductsQuery = useQuery(["searchProducts", searchCriteria], () =>
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${searchCriteria}/search-active`).then((res) => res.json()),
-        {
-            enabled: false
-        }    
-    );
-    // END OF QUERIES
     let category_list = null
 
     if(getAllCategoriesQuery.isFetched){
