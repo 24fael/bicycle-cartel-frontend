@@ -106,12 +106,12 @@ export default function Cart(){
                             </Col>
                              <Col sm={12} className="w-100 d-flex justify-content-end">
                                 <Button className="btn-secondary-custom w-25" variant="dark" size='lg' onClick={handleCheckout} disabled={isLoading}>
-                                    <FontAwesomeIcon icon={solid('basket-shopping')} />
+                                    <FontAwesomeIcon icon={solid("bag-shopping")} />
                                     {
                                         isLoading ? 
                                             ' Loading..'
                                         : 
-                                            ' Checkout'
+                                            ' Place Order'
                                     }
                                 </Button>
                             </Col>

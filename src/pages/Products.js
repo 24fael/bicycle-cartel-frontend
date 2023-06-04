@@ -5,130 +5,118 @@ import Loading from '../components/Loading'
 import {Row, Col, Button, InputGroup, FormControl, Form} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { useQuery, useQueryClient } from "react-query";
+import Swal from 'sweetalert2'
 
 const AdminDashboard = lazy(() => import('../components/Products/AdminDashboard'))
 
 export default function Products() {
-    const [allProducts, setAllProducts] = useState([])
-    const [isLoading, setIsLoading] = useState([false])
-    const [categories, setCategories] = useState([])
+    // For handling the data from the search input field
+    const [searchCriteria, setSearchCriteria] = useState("");
+    const [categoryId, setCategoryId] = useState("");
 
-    const [searchCriteria, setSearchCriteria] = useState('')
+    // Initializes the UserContext to be able to use the global 'user' state
+    const { user } = useContext(UserContext);
 
-    const {user} = useContext(UserContext)
+    // QUERIES
+    const getAllProductsQuery = useQuery("getAllProducts", () => 
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/`).then((res) => res.json()),
+        {
+            keepPreviousData: true,
+            enabled: true
+        }
+    );
 
-    const getAllProducts = () => {
-        // Clears search box
-        setSearchCriteria('')
+    const getAllCategoriesQuery = useQuery("getAllCategories", () =>
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/categories/`).then((res) => res.json())
+    );
 
-        setIsLoading(true)
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/`)
-        .then(response => response.json())
-        .then(result => {
-            setAllProducts(result)
-            setIsLoading(false)
-        })
+    const filterByCategoryQuery = useQuery(["filterByCategory", categoryId], () =>
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${categoryId}/filter`).then((res) => res.json()),
+        {
+            keepPreviousData: true,
+            enabled: false
+        }
+    );
+    
+    // By putting the 'searchCriteria' state inside an array along with the queryKey 'searchProducts', we are observing the changes is that state and for every change, it will fetch data depending on the value of that state. (This allows search results to automatically reflect on the UI)
+    const searchProductsQuery = useQuery(["searchProducts", searchCriteria], () =>
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${searchCriteria}/search-active`).then((res) => res.json()),
+        {
+            enabled: false
+        }    
+    );
+    // END OF QUERIES
+    let category_list = null
+
+    if(getAllCategoriesQuery.isFetched){
+        category_list = getAllCategoriesQuery.data.map((category) => {
+            return (
+                <option value={category._id}>{category.name}</option>
+            );
+        });
     }
-
-    const getAllCategories = () => {
-        setIsLoading(true)
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/categories/`)
-        .then(response => response.json())
-        .then(result => {
-            setCategories(result)
-            setIsLoading(false)
-        })
-    }
-
-    const filterByCategory = (category_id) => {
-        setIsLoading(true)
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${category_id}/filter`)
-        .then(response => response.json())
-        .then(result => {
-            setAllProducts(result)
-            setIsLoading(false)
-        })
-    }
-
-    useEffect(() => {
-        getAllProducts()
-        getAllCategories()
-    }, [])
-
-    const category_list = categories.map(category => {
-        return(
-            <option value={category._id}>{category.name}</option>
-        )
-    })
-
-    const handleProductSearch = () => {
-        setIsLoading(true)
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${searchCriteria}/search-active`)
-        .then(response => response.json())
-        .then(result => {
-            setAllProducts(result)
-            setIsLoading(false)
-        })
-    }
-
-    return(
+    
+    return (
         <div>
-            { 
-                (user.isAdmin === true) ?
-                    <Suspense fallback={'Loading Admin Dashboard..'}>
-                        <AdminDashboard products={allProducts} refreshData={getAllProducts}/>
-                    </Suspense>
-                :
-                    <>
-                        <Row>
-                            <Col className="d-flex justify-content-between align-items-center mt-5">
-                                <span className="d-flex align-items-center">
-                                    <h1>Product Catalog</h1>
-                                    <span className="p-2"></span>
-                                    <Button className="btn-secondary-custom mb-2" variant="dark" onClick={() => getAllProducts()}>
-                                        <FontAwesomeIcon icon={solid('rotate-right')} /> Refresh
-                                    </Button>
-                                </span>
-                                <span className="d-flex align-items-center">
-                                <Form.Select className="w-75" onChange={event => filterByCategory(event.target.value)}>
-                                    <option>Filter by Category</option>
-                                    {category_list}
-                                </Form.Select>
-                                <span className="p-1"></span>
-                                <InputGroup>
-                                    <FormControl
-                                    aria-label="Default"
-                                    aria-describedby="inputGroup-sizing-default"
-                                    placeholder="Search for a Product"
-                                    value={searchCriteria}
-                                    onChange={event => setSearchCriteria(event.target.value)}
-                                    />
-                                    <InputGroup.Text 
-                                        disabled={searchCriteria === ''} 
-                                        as={Button} 
-                                        onClick={() => handleProductSearch()} 
-                                        className="btn-secondary-custom" 
-                                        variant="dark" 
-                                        id="inputGroup-sizing-default"
-                                        >
-                                        <FontAwesomeIcon icon={solid('magnifying-glass')} /> Search
-                                    </InputGroup.Text>
-                                </InputGroup>
-                                </span>
-                            </Col>
-                        </Row>
-
-                        {
-                            isLoading ?
-                                <>
-                                    <Loading/>
-                                    <p>Loading our products, please wait.</p>
-                                </>
-                            :
-                                <ProductList products={allProducts}/>
+        {user.isAdmin === true ? (
+            <Suspense fallback={"Loading Admin Dashboard.."}>
+                <AdminDashboard products={getAllProductsQuery.data} refreshData={getAllProductsQuery.refetch} />
+            </Suspense>
+        ) : (
+            <>
+            <Row>
+                <Col className="d-flex justify-content-between align-items-center mt-5">
+                <h1>Product Catalog</h1>
+                <span className="d-flex align-items-center">
+                    <Form.Select className="w-75" onChange={(event) => {
+                            setCategoryId(event.target.value)
+                            filterByCategoryQuery.refetch()
                         }
-                    </>
-            }
+                    }>
+                        <option>Filter by Category</option>
+                        {category_list}
+                    </Form.Select>
+                    <span className="p-1"></span>
+                    <InputGroup>
+                    <FormControl
+                        aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default"
+                        placeholder="Search for a Product"
+                        value={searchCriteria}
+                        onChange={(event) => {
+                            setSearchCriteria(event.target.value)
+                        }}
+                    />
+                    <InputGroup.Text
+                        disabled={searchCriteria === "" && categoryId === ""}
+                        as={Button}
+                        onClick={() => {
+                                setSearchCriteria("")
+                                setCategoryId("")
+                            }
+                        } // Clears the searchCriteria state
+                        className="btn-secondary-custom"
+                        variant="dark"
+                        id="inputGroup-sizing-default"
+                    >
+                        Reset
+                    </InputGroup.Text>
+                    </InputGroup>
+                </span>
+                </Col>
+            </Row>
+            
+            {getAllProductsQuery.isLoading || getAllCategoriesQuery.isLoading || filterByCategoryQuery.isLoading || searchProductsQuery.isLoading ? (
+                <>
+                    <Loading />
+                    <p>Loading our products, please wait.</p>
+                </>
+            ) : (
+                <ProductList searchCriteria={searchCriteria} products={filterByCategoryQuery.data || searchProductsQuery.data || getAllProductsQuery.data} />
+            )}
+            </>
+        )}
         </div>
-    )
+    );
 }
