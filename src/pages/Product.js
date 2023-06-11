@@ -6,6 +6,8 @@ import Swal from 'sweetalert2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro'
 import CartContext from '../contexts/CartContext'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Product(){
     const navigate = useNavigate()
@@ -102,10 +104,10 @@ export default function Product(){
                     </Carousel>
                 </Col>
                 <Col md={6}>
-                    <h3>{name}</h3>
+                    <h3>{name || <Skeleton/>}</h3>
                     <span>
                         <Badge bg="light" text="dark">
-                            {category}
+                            {category || <Skeleton width={100}/>}
                         </Badge>
                         <span> </span>
                         <Badge bg="light" text="dark">
@@ -114,8 +116,8 @@ export default function Product(){
                             }
                         </Badge>
                     </span>
-                    <p className="mt-3">{description}</p>
-                    <h6>Price: Php{price}</h6>
+                    <p className="mt-3">{description || <Skeleton count={3} />}</p>
+                    <h6>₱{price || <Skeleton width={30}/>}</h6>
                     <div className='d-flex justify-content-start align-items-center mt-3'>
                         <InputGroup className="w-25">
                             <InputGroup.Text as={Button} onClick={() => setQuantity(quantity => quantity + 1)} className="btn-secondary-custom" variant="dark" id="inputGroup-sizing-default">

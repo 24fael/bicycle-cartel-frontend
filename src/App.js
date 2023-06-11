@@ -9,6 +9,7 @@ import {UserProvider} from './contexts/UserContext'
 import { CartProvider } from './contexts/CartContext';
 
 // Lazy-loaded components
+// Code-splitting/Lazy Loading
 const Products = lazy(() => import('./pages/Products.js'))
 const Product = lazy(() => import('./pages/Product.js'))
 const Orders = lazy(() => import('./pages/Orders.js'))
