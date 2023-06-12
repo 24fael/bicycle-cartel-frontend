@@ -7,9 +7,9 @@ import { Container } from 'react-bootstrap';
 import NotFound from './pages/NotFound';
 import {UserProvider} from './contexts/UserContext'
 import { CartProvider } from './contexts/CartContext';
+import PageLoading from './components/PageLoading';
 
 // Lazy-loaded components
-// Code-splitting/Lazy Loading
 const Products = lazy(() => import('./pages/Products.js'))
 const Product = lazy(() => import('./pages/Product.js'))
 const Orders = lazy(() => import('./pages/Orders.js'))
@@ -43,7 +43,7 @@ function App() {
     <React.Fragment>
       <UserProvider value={{user, setUser, unsetUser}}>
       <CartProvider value={{cart, setCart, unsetCart}}>
-        <Suspense fallback={"Loading the page..."}>
+        <Suspense fallback={<PageLoading/>}>
           <Router>
             <AppNavbar/>
             <Container className="pt-5">
